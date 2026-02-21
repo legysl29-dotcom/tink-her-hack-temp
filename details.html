@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>More Details — Logic Legend</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg1:#1e3c72;--bg2:#27ae60;--card:#fff;--accent:#27ae60;--shadow:0 14px 40px rgba(11,22,39,0.12)}
+        html,body{height:100%;margin:0}
+        body{font-family:'Inter',Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center;padding:24px}
+
+        .card{width:100%;max-width:520px;background:var(--card);border-radius:16px;padding:28px;box-shadow:var(--shadow)}
+        h1{margin:0 0 8px;font-size:20px;color:#10203a}
+        label{display:block;font-weight:600;margin-top:12px;color:#233047}
+        input{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #eef1f6;margin-top:6px}
+        .actions{display:flex;gap:12px;margin-top:18px}
+        .btn{background:var(--accent);color:#fff;padding:12px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:700;flex:1}
+        .btn.ghost{background:transparent;color:#5b6b78;border:1px solid #eef1f6}
+        .summary{background:#fbfdff;padding:12px;border-radius:10px;border:1px solid #eef1f6}
+    </style>
+</head>
+<body>
+
+    <div class="card" role="region" aria-label="More details card">
+        <h1>More Details</h1>
+
+        <div id="summary" class="summary" aria-live="polite"></div>
+
+        <label for="ward">Ward Number</label>
+        <input id="ward" type="text" placeholder="e.g. 12" />
+
+        <label for="house">House Number</label>
+        <input id="house" type="text" placeholder="e.g. 42A" />
+
+        <label for="pcode">Personal Code</label>
+        <input id="pcode" type="text" placeholder="Enter personal code" />
+
+        <div class="actions">
+            <button id="saveBtn" class="btn">Submit</button>
+            <button id="backBtn" class="btn ghost">Back</button>
+        </div>
+
+        <div id="confirm" style="margin-top:16px;display:none;padding:12px;border-radius:10px;background:#f0fdf4;color:#065f46"></div>
+        <div id="aboutSite" style="margin-top:18px;padding:12px;border-radius:10px;background:#fbfdff;border:1px solid #eef1f6;color:#213243;font-size:14px">
+            <strong>About this site</strong>
+            <div style="margin-top:8px;color:#394f63">This prototype lets you register residents (name, Aadhar/voter ID, phone), verify with a demo OTP, add local details (ward, house number, personal code), and track material collections by month and year. All data is stored locally in your browser (localStorage) and can be exported from the Registrations or Materials pages. For production use, replace local storage with a secure server-side database and ensure sensitive IDs are handled according to privacy regulations.</div>
+        </div>
+    </div>
+
+    <script>
+        function getQueryParam(key){ return new URLSearchParams(window.location.search).get(key) }
+        const userId = getQueryParam('userId');
+        const userRaw = localStorage.getItem('user:' + userId);
+        const user = userRaw ? JSON.parse(userRaw) : null;
+
+        const summary = document.getElementById('summary');
+        if (user) {
+            // Show summary without personal code (kept private)
+            summary.innerHTML = `<strong>Name:</strong> ${user.name} <br><strong>ID:</strong> ${user.aadhar} <br><strong>Phone:</strong> ${user.phone}`;
+            // Prefill ward/house only; keep personal code stored but do not expose it in summary/list
+            document.getElementById('ward').value = user.ward || '';
+            document.getElementById('house').value = user.house || '';
+                // Prefill ward/house with any previously saved values; do NOT prefill personal code
+                document.getElementById('ward').value = user.ward || '';
+                document.getElementById('house').value = user.house || '';
+        } else {
+            summary.innerHTML = 'User not found. Redirecting to intro...';
+            // Redirect back to the intro/front page after a short delay
+            setTimeout(() => { window.location.href = 'index.html'; }, 900);
+        }
+
+        document.getElementById('backBtn').addEventListener('click', ()=>{ window.location.href = 'welcome.html?userId=' + encodeURIComponent(userId) })
+
+        document.getElementById('saveBtn').addEventListener('click', ()=>{
+            const ward = document.getElementById('ward').value.trim();
+            const house = document.getElementById('house').value.trim();
+            const pcode = document.getElementById('pcode').value.trim();
+            if (!ward || !house || !pcode) { alert('Please fill all fields.'); return }
+            if (!user) { alert('User not found.'); return }
+
+            // update per-user record
+            const key = 'user:' + userId;
+            const u = JSON.parse(localStorage.getItem(key) || '{}');
+            u.ward = ward; u.house = house; u.pcode = pcode;
+            localStorage.setItem(key, JSON.stringify(u));
+
+                const conf = document.getElementById('confirm');
+                conf.style.display = 'block';
+                conf.innerHTML = '<strong>Saved (demo)</strong><div style="margin-top:8px">Ward: ' + ward + '<br>House: ' + house + '</div>' +
+                    '<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">' +
+                    '<a class="btn" href="register.html">Register Another</a>' +
+                    '<a class="btn ghost" href="materials.html?userId=' + encodeURIComponent(userId) + '">Go to Materials</a>' +
+                    '</div>';
+        })
+    </script>
+
+</body>
+</html>
