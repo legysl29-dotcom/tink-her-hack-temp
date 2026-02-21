@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Register — Logic Legend</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg1: #1e3c72; /* deep blue */
+            --bg2: #27ae60; /* green */
+            --card-bg: #ffffff;
+            --accent: #27ae60;
+            --muted: #6b7280;
+            --shadow: 0 12px 30px rgba(11,22,39,0.12);
+        }
+        html,body{height:100%;margin:0}
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: linear-gradient(135deg,var(--bg1),var(--bg2));
+            display:flex;align-items:center;justify-content:center;padding:24px;color:#0b1227;
+        }
+
+        .card {
+            width:100%;max-width:460px;background:var(--card-bg);border-radius:16px;padding:32px;box-shadow:var(--shadow);
+        }
+
+        .brand { text-align:center;margin-bottom:18px }
+        .brand h1{margin:0;font-size:20px;color:var(--bg1);letter-spacing:0.2px}
+        .brand p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+        h2{margin:6px 0 18px;font-size:20px;color:#10203a}
+
+        label{display:block;font-weight:600;margin-top:10px;color:#233047;font-size:13px}
+        input[type=text], input[type=tel] { width:100%; padding:12px 14px; border-radius:10px; border:1px solid #e6e9ef; box-sizing:border-box; margin-top:6px; font-size:14px }
+
+        .actions{display:flex;gap:12px;align-items:center;margin-top:20px}
+        .btn{background:var(--accent);color:white;padding:12px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:700;flex:1}
+        .btn.ghost{background:transparent;color:var(--muted);border:1px solid #e6e9ef}
+
+        .small{font-size:13px;color:var(--muted);margin-top:10px}
+    </style>
+</head>
+<body>
+
+    <div class="card" role="region" aria-label="Registration card">
+        <div class="brand">
+            <h1>Logic Legend</h1>
+            <p class="small">Registration</p>
+        </div>
+
+        <h2>Create your account</h2>
+
+        <label for="name">Full Name</label>
+        <input id="name" type="text" placeholder="Enter full name" />
+
+        <label for="aadhar">Aadhar Number</label>
+        <input id="aadhar" type="text" inputmode="numeric" pattern="\d*" maxlength="12" placeholder="Enter 12-digit Aadhar number" oninput="this.value=this.value.replace(/\D/g,'')" />
+
+        <label for="phone">Phone Number</label>
+        <input id="phone" type="tel" inputmode="numeric" pattern="\d*" maxlength="10" placeholder="10-digit phone e.g. 9876543210" oninput="this.value=this.value.replace(/\D/g,'')" />
+
+        <div class="actions">
+            <button class="btn" id="submitBtn">Submit</button>
+            <button class="btn ghost" id="homeBtn">Home</button>
+        </div>
+
+        <div id="msg" class="small" aria-live="polite"></div>
+    </div>
+
+    <script>
+        function generateId(){ return 'LL' + Date.now() }
+
+        document.getElementById('homeBtn').addEventListener('click', ()=>{ window.location.href = 'index.html' })
+
+        document.getElementById('submitBtn').addEventListener('click', function(){
+            const name = document.getElementById('name').value.trim();
+            const aadhar = document.getElementById('aadhar').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const msg = document.getElementById('msg');
+            msg.textContent = '';
+
+            if (!name || !aadhar || !phone) {
+                msg.textContent = 'Please fill all fields.'; return;
+            }
+
+            // validate numeric lengths
+            if (!/^\d{12}$/.test(aadhar)) { msg.textContent = 'Enter a valid 12-digit Aadhar number.'; return; }
+            if (!/^\d{10}$/.test(phone)) { msg.textContent = 'Enter a valid 10-digit phone number.'; return; }
+        
+        // ensure pasted input is digits-only for aadhar and phone
+        const aadharEl = document.getElementById('aadhar');
+        const phoneEl = document.getElementById('phone');
+        [aadharEl, phoneEl].forEach(el => {
+            el.addEventListener('paste', function(e){
+                e.preventDefault();
+                const text = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g,'');
+                document.execCommand('insertText', false, text);
+            });
+        });
+
+            // create per-user record and update index
+            const id = generateId();
+            const newUser = { id, name, aadhar, phone };
+            localStorage.setItem('user:' + id, JSON.stringify(newUser));
+            const index = JSON.parse(localStorage.getItem('users_index') || '[]');
+            index.push(id);
+            localStorage.setItem('users_index', JSON.stringify(index));
+
+            // Redirect to welcome with userId
+            window.location.href = 'welcome.html?userId=' + encodeURIComponent(id);
+        })
+    </script>
+
+</body>
+</html>
