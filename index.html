@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logic Legends</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #2c3e50, #27ae60);
+            color: white;
+            text-align: center;
+        }
+
+        .container {
+            margin-top: 150px;
+        }
+
+        h1 {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-weight: normal;
+            margin-bottom: 40px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #ffffff;
+            color: #27ae60;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Logic Legends</h1>
+        <h2>Earth Deserves Better 🌍</h2>
+        <div style="display:flex;gap:12px;justify-content:center;">
+            <button onclick="goToRegister()">Register Now</button>
+            <button onclick="goToList()" style="background:#ffffff;color:#2c3e50;border-radius:5px;padding:15px 22px;font-weight:bold;">View Registrations</button>
+        </div>
+    </div>
+
+    <script>
+        function goToRegister() {
+            window.location.href = "register.html";
+        }
+        function goToList() { window.location.href = 'list.html'; }
+    </script>
+
+</body>
+</html>
