@@ -111,7 +111,7 @@ uvicorn app:app --reload
 
 **System Architecture:**
 
-![Architecture Diagram](docs/architecture.png)
+![Architecture Diagram]![Image](https://github.com/user-attachments/assets/a86bd95b-4529-4cba-abc2-f482fdfbc534)
 *Explain your system architecture - components, data flow, tech stack interaction*
 
 **Application Workflow:**
@@ -165,9 +165,8 @@ Approximately 15–25% (mostly helper logic, suggestions, and documentation)
 
 ## Team Contributions
 
-- [Name 1]: [Specific contributions - e.g., Frontend development, API integration, etc.]
-- [Name 2]: [Specific contributions - e.g., Backend development, Database design, etc.]
-- [Name 3]: [Specific contributions - e.g., UI/UX design, Testing, Documentation, etc.]
+- Sreelekshmi V J : Give the idea to the website and design first page
+- Legy S L : Design balance three pages.
 
 ---
 
