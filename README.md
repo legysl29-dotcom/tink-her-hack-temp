@@ -2,27 +2,26 @@
   <img src="./img.png" alt="Project Banner" width="100%">
 </p>
 
-# [Project Name] 🎯
+#[EARTH DESERVE BETTER 🎯
 
 ## Basic Details
 
-### Team Name: [Name]
+### Team Name: Logic Legend
 
 ### Team Members
-- Member 1: [Name] - [College]
-- Member 2: [Name] - [College]
+- Member 1: Sreelekshmi V] - LMCST
+- Member 2: Legy SL - LMCST
 
 ### Hosted Project Link
 [mention your project hosted link here]
 
 ### Project Description
-[2-3 lines about what your project does]
+The website analyzes waste type, quantity, and risk factors, helping authorities monitor limits and charge extra for excess waste. It also classifies materials like plastic and metal to improve recycling efficiency and environmental safety. 
 
 ### The Problem statement
-[What problem are you solving?]
-
+Many communities struggle with improper waste disposal, lack of monitoring, and poor segregation of garbage, leading to environmental pollution and health risks. There is no efficient system to track household waste generation or ensure accountability. This creates a need for a smart solution that monitors, manages, and encourages responsible waste disposal.
 ### The Solution
-[How are you solving it?]
+create a website for analyse the proper disposal of waste
 
 ---
 
@@ -31,7 +30,7 @@
 ### Technologies/Components Used
 
 **For Software:**
-- Languages used: [e.g., JavaScript, Python, Java]
+- Languages used: html
 - Frameworks used: [e.g., React, Django, Spring Boot]
 - Libraries used: [e.g., axios, pandas, JUnit]
 - Tools used: [e.g., VS Code, Git, Docker]
@@ -46,10 +45,10 @@
 ## Features
 
 List the key features of your project:
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
-- Feature 4: [Description]
+- Feature 1: Unique ID assigned to each household for waste tracking
+- Feature 2: Extra charge calculation for exceeding waste limits
+- Feature 3: Waste classification (plastic, metal, etc.) for proper segregation
+- Feature 4: Supports recycling and environmental protection
 
 ---
 
